@@ -96,7 +96,7 @@
   z-index: 100;
   width: 70px;
   height: 70px;
-  background-image: url( '../public/podcast-icon.svg' );
+  background-image: url( '../public/podcasticon.svg' );
   position: absolute;
   right:5px;
   top:10px;
@@ -109,7 +109,7 @@
     z-index: 100;
     width: 90px;
     height: 90px;
-    background-image: url( '../public/podcast-icon.svg' );
+    background-image: url( '../public/podcasticon.svg' );
     position: absolute;
     right:10px;
     top:20px;
@@ -128,7 +128,7 @@
     z-index: 100;
     width: 90px;
     height: 90px;
-    background-image: url( '../public/podcast-icon.svg' );
+    background-image: url( '../public/podcasticon.svg' );
     position: absolute;
     right:30px;
     top:20px;

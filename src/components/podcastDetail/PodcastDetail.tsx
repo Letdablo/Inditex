@@ -37,7 +37,10 @@ export default function PodcastDetail() {
         }
       </div >
     );
-
+  else
+    return (
+      <div></div >
+    );
 }
 
 
