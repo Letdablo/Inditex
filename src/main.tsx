@@ -31,7 +31,14 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 
 
 export default function App() {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 24 * 60 * (60 * 1000), // 1 dia
+        cacheTime: 24 * 60 * (60 * 1000), // 1 dia
+      },
+    },
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <div className="App">
