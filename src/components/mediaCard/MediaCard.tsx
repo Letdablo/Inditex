@@ -35,14 +35,14 @@ export default function MediaCard({ podcastMedia, img }: MediaCardProps) {
       <CardMedia
         component="img"
         sx={{ width: 151 }}
-        image={podcastMedia.img || img}
+        image={podcastMedia.artworkUrl600 || img}
         alt="Live from space album cover"
       />
       <Box className="CardGrid">
         <CardContent className="CardContentGrid">
           <Box>
             <Typography component="div" variant="h5">
-              {podcastMedia.title}
+              {podcastMedia.trackName}
             </Typography>
             <Typography variant="subtitle1" color="text.secondary" component="div">
               {podcastMedia.artist}
@@ -66,7 +66,7 @@ export default function MediaCard({ podcastMedia, img }: MediaCardProps) {
           />
         </Box>
 
-        <LinearProgressWithLabel mediaDuration={podcastMedia.mediaDuration} play={play}></LinearProgressWithLabel>
+        <LinearProgressWithLabel mediaDuration={podcastMedia.trackTimeMillis} play={play}></LinearProgressWithLabel>
 
         <Box className="CardPlay">
           <IconButton aria-label="play/pause" onClick={() => setPlay(!play)}>

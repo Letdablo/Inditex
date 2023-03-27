@@ -1,37 +1,37 @@
 
 import "./PodcastDetail.css"
 import { Container, Typography, Grid } from '@mui/material';
-import { useFetchEpisodeByPodacastId, useFetchPodcastDataById } from "../../service/app.service";
+import { getEpisodesPodcastById } from "../../service/app.service";
 import MediaCard from "../mediaCard/MediaCard";
 import { Link, useParams } from "react-router-dom";
-import { Podacast, PodacastDetails } from "../../types/Types";
+import { Podacast, Episode } from "../../types/Types";
+import { useQuery } from "react-query";
 
 interface PodcastGridDetailProps {
-  podcastId: string;
-  dataPodcast: Podacast;
+
+  dataPodcast: Episode[];
 }
 
 export default function PodcastDetail() {
   const { podcastId } = useParams();
-  const { loadingPodcast, errorPodcast, dataPodcast, refetchPodcas } = useFetchPodcastDataById("", Number(podcastId));
-
-
-  if (errorPodcast) return <span>{`An error has occurred: ${errorPodcast.message}`}</span>;
-  if (dataPodcast)
+  const { isLoading, error, data, refetch } = useQuery<Episode[], Error>(['Episodes', podcastId], () => getEpisodesPodcastById(podcastId || ''));
+  if (error) return <span>{`An error has occurred: ${error.message}`}</span>;
+  if (isLoading) return <div className="lds-ripple" ><div></div><div></div></div >;
+  if (data)
     return (
       <div>
         <Link to="/">
           <div className='icon'></div>
         </Link>
-        {loadingPodcast ? <div className="lds-ripple" ><div></div><div></div></div > :
+        {isLoading && !data ? <div className="lds-ripple" ><div></div><div></div></div > :
           <div>
             <Container maxWidth="md" className='ContainerTitle' >
               <Typography variant="h1" className='TitlePodcast'>
-                {`${dataPodcast.title}`}
+                {`${data[0].collectionName}`}
               </Typography>
             </Container>
             <Container maxWidth="md" className='ContainerDetails' >
-              <PodcastGridDetail podcastId={podcastId || "0"} dataPodcast={dataPodcast}></PodcastGridDetail>
+              {<PodcastGridDetail dataPodcast={data}></PodcastGridDetail>}
             </Container>
           </div >
         }
@@ -44,27 +44,17 @@ export default function PodcastDetail() {
 }
 
 
-function PodcastGridDetail({ podcastId, dataPodcast }: PodcastGridDetailProps) {
+function PodcastGridDetail({ dataPodcast }: PodcastGridDetailProps) {
 
-  const { loadingEpisodes, errorEpisodes, dataEpisodes, refetchEpisodes } = useFetchEpisodeByPodacastId("", Number(podcastId));
 
-  if (loadingEpisodes) return <div className="lds-ripple" ><div></div><div></div></div >;
+  return (
+    <Grid container spacing={{ xs: 3, md: 5 }} >
+      {dataPodcast?.map((episode, index) => (
+        <Grid item xs={12} md={12} key={index} >
+          <MediaCard podcastMedia={episode} img={episode.artworkUrl600 || ''} ></MediaCard>
+        </Grid>
+      ))}
+    </Grid>
+  )
 
-  if (errorEpisodes) return <span>{`An error has occurred: ${errorEpisodes.message}`}</span>;
-
-  if (dataEpisodes) {
-    const dataPodcastDetails: PodacastDetails = { ...dataPodcast, listEpisodies: dataEpisodes }
-
-    return (
-
-      <Grid container spacing={{ xs: 3, md: 5 }} >
-        {dataPodcastDetails.listEpisodies?.map((episode, index) => (
-          <Grid item xs={12} md={12} key={index} >
-            <MediaCard podcastMedia={episode} img={dataPodcastDetails.img} ></MediaCard>
-          </Grid>
-        ))}
-      </Grid>
-    )
-  }
-  else { return <div></div> }
 }

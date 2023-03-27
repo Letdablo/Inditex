@@ -38,7 +38,12 @@ export default function Modal({ open, setOpen, episodeDetails }: ModalProps) {
             onClose={handleClose}
             aria-describedby="alert-dialog-slide-description"
         >
-            <CardImg data={episodeDetails}></CardImg>
+            <CardImg
+                description={episodeDetails.description}
+                title={episodeDetails.trackName}
+                id={episodeDetails.collectionId.toString()}
+                image={episodeDetails.artworkUrl600 || ""}
+            ></CardImg>
 
         </Dialog>
 

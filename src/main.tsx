@@ -8,6 +8,7 @@ import PodcastHome from "./components/podcastHome/PodcastHome";
 import ErrorPage from "./components/errorPage/ErrorPage";
 import PodcastDetail from "./components/podcastDetail/PodcastDetail";
 import './main.css'
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const router = createBrowserRouter([
   {
@@ -23,11 +24,21 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <div className="App">
-
-      <div className="ContainerApp">
-        <RouterProvider router={router} />
-      </div>
-    </div>
+    <App></App>
   </React.StrictMode >
 );
+
+
+
+export default function App() {
+  const queryClient = new QueryClient();
+  return (
+    <QueryClientProvider client={queryClient}>
+      <div className="App">
+        <div className="ContainerApp">
+          <RouterProvider router={router} />
+        </div>
+      </div>
+    </QueryClientProvider>
+  );
+}

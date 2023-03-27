@@ -6,15 +6,17 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { Podacast, Episode } from '../../types/Types';
 import { Link } from "react-router-dom";
-
+import './Card.css'
 
 
 interface CardImgProps {
-    data: Podacast | Episode;
+    id: string;
+    image: string;
+    title: string;
+    description: string
 }
-
-export default function CardImg({ data }: CardImgProps) {
-    const { title, description, img, id } = data
+//podcast.id.attributes['im:id']
+export default function CardImg({ id, image, title, description }: CardImgProps) {
     return (
         <Card className='Card'>
             <Link to={`podcast/${id}`}>
@@ -22,7 +24,7 @@ export default function CardImg({ data }: CardImgProps) {
                     <CardMedia
                         component="img"
                         height="140"
-                        image={img}
+                        image={image}
                         alt={title}
                     />
                     <CardContent>
